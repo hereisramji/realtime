@@ -3,7 +3,7 @@ import pandas as pd
 from models.schedule import SampleSchedule
 from models.simulation import CytometrySimulation
 from utils.visualization import create_population_plots, create_summary_table
-from utils.constants import DEFAULT_SCHEDULE, DEFAULT_BATCH_SIZE, DEFAULT_REALTIME_CV
+from utils.constants import DEFAULT_SCHEDULE, DEFAULT_BATCH_SIZE, DEFAULT_REALTIME_CV, DEFAULT_BATCH_CV
 
 st.set_page_config(page_title="Cytometry Data Visualization", layout="wide")
 
@@ -46,6 +46,16 @@ batch_size = st.sidebar.slider(
     help="Minimum number of samples required to trigger a batch run"
 )
 
+# Batch CV input
+batch_cv = st.sidebar.number_input(
+    "Batch Mode CV (%)",
+    min_value=0.1,
+    max_value=50.0,
+    value=DEFAULT_BATCH_CV,
+    step=0.1,
+    help="Overall coefficient of variation for batch mode"
+)
+
 # Real-time CV input
 realtime_cv = st.sidebar.number_input(
     "Real-Time Mode CV (%)",
@@ -61,7 +71,7 @@ batch_runs = schedule.get_batch_runs(batch_size)
 realtime_runs = schedule.get_realtime_runs()
 
 # Simulate data
-simulator = CytometrySimulation(realtime_cv)
+simulator = CytometrySimulation(batch_cv=batch_cv, realtime_cv=realtime_cv)
 batch_results = simulator.simulate_batch_mode(batch_runs)
 realtime_results = simulator.simulate_realtime_mode(realtime_runs)
 
