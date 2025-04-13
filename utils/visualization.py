@@ -19,7 +19,7 @@ def create_population_plots(
         ax = plt.subplot(2, 3, idx)
         
         # Plot batch mode points
-        batch_x = np.repeat(0, len(batch_runs))
+        batch_x = np.repeat(0.0, len(batch_runs))
         batch_x += np.random.normal(0, 0.05, len(batch_runs))  # Add jitter
         ax.scatter(
             batch_x,
@@ -31,7 +31,7 @@ def create_population_plots(
         )
         
         # Plot real-time mode points
-        rt_x = np.repeat(1, len(realtime_runs))
+        rt_x = np.repeat(1.0, len(realtime_runs))
         rt_x += np.random.normal(0, 0.05, len(realtime_runs))  # Add jitter
         ax.scatter(
             rt_x,
